@@ -1,0 +1,140 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="bin\**" />
+    <Compile Remove="lib\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <EmbeddedResource Remove="lib\**" />
+    <None Remove="bin\**" />
+    <None Remove="lib\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="tests\01-implied.nes" />
+    <None Remove="tests\1.Branch_Basics.nes" />
+    <None Remove="tests\1.frame_basics.nes" />
+    <None Remove="tests\2.Backward_Branch.nes" />
+    <None Remove="tests\3.Forward_Branch.nes" />
+    <None Remove="tests\5.nmi_suppression.nes" />
+    <None Remove="tests\6.nmi_disable.nes" />
+    <None Remove="tests\apu_test.nes" />
+    <None Remove="tests\Balloon_fight.nes" />
+    <None Remove="tests\BurgerTime %28USA%29.nes" />
+    <None Remove="tests\burgertime.nes" />
+    <None Remove="tests\BurgerTimePatch.nes" />
+    <None Remove="tests\cpu_interrupts.nes" />
+    <None Remove="tests\donkey kong.nes" />
+    <None Remove="tests\Duck_Tales.nsf" />
+    <None Remove="tests\megaman2.nes" />
+    <None Remove="tests\nestest.nes" />
+    <None Remove="tests\ppu_vbl_nmi.nes" />
+    <None Remove="tests\smb.nes" />
+    <None Remove="tests\smb3.nes" />
+    <None Remove="tests\smb_2.nes" />
+    <None Remove="tests\Super_Mario_Bros..zip" />
+    <None Remove="tests\Super_Mario_Bros._3.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="tests\01-implied.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\1.Branch_Basics.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\1.frame_basics.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\2.Backward_Branch.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\3.Forward_Branch.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\5.nmi_suppression.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\6.nmi_disable.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\apu_test.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\Balloon_fight.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\BurgerTime (USA).nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\burgertime.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\BurgerTimePatch.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\cpu_interrupts.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\donkey kong.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\Duck_Tales.nsf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\megaman2.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\nestest.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\ppu_vbl_nmi.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\smb.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\smb3.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\smb_2.nes">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\Super_Mario_Bros..zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests\Super_Mario_Bros._3.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\csPixelGameEngineCore\csPixelGameEngineCore.csproj" />
+    <ProjectReference Include="..\NESEmulator\NESEmulator.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="OpenTK.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="OpenTK.NetStandard" Version="1.0.5.32" />
+  </ItemGroup>
+</Project>
