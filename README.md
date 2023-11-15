@@ -1,11 +1,14 @@
 ﻿# NEmulator, or C# NES Emulator
-This is my NES emulator written in C#. A great deal of this is based on an emulator that can be found [here](https://github.com/OneLoneCoder/olcNES).
+
+My fork of CodeSourcerer's Emulator project. Goal: little RnD (video / audio subsystems coding)
+
+## A few words from the author
+"This is my NES emulator written in C#. A great deal of this is based on an emulator that can be found [here](https://github.com/OneLoneCoder/olcNES)."
 
 ## Building
-I use Visual Studio 2019 Community Edition while developing this project, so if you have it available you can simply open the solution file - otherwise
-you will have to add in the appropriate project files into your own solution.
+I use Visual Studio 2022 Preview (Community Edition) while developing this project, so if you have it available you can simply open the solution file - otherwise you will have to add in the 
+appropriate project files into your own solution.
 
-For now, you will need to also include [csPixelGameEngine](https://github.com/CodeSourcerer/csPixelGameEngine) in your solution.
 
 ### Windows
 Try to use the NESEmulatorApp for the main/default project... 
@@ -50,6 +53,10 @@ Player 2 controls not yet supported.
 	* Mapper 002 - Complete
 	* Mapper 003 - Complete
 	* Mapper 004 - In progress (need to test IRQ handling)
+
+## Reference(s)
+- https://github.com/CodeSourcerer/
+- https://github.com/CodeSourcerer/Emulator
 
 ## ..
 As is. No support. RnD only. DIY
