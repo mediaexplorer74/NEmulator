@@ -1,17 +1,25 @@
 ﻿# NEmulator, or C# NES Emulator
 
-My fork of CodeSourcerer's Emulator project. Goal: little RnD (video / audio subsystems coding)
+My fork of CodeSourcerer's Emulator project. Goal: little RnD (video / audio subsystems coding).
+Draft / Pre-alpha. 
+
+## Screenshot(s) (Target: win 11 on desktop pc, not W10M yet...)
+![Button](Images/shot01.png)
 
 ## A few words from the author
 "This is my NES emulator written in C#. A great deal of this is based on an emulator that can be found [here](https://github.com/OneLoneCoder/olcNES)."
+
+## My 2 cents
+- .NET Core app base -> UWP   (min. Win. os SDK = 17763)
+- OpenTK + UWP "experimentation"
+- csPixelGameEngineCore -> GameEnginCore (draft)
 
 ## Building
 I use Visual Studio 2022 Preview (Community Edition) while developing this project, so if you have it available you can simply open the solution file - otherwise you will have to add in the 
 appropriate project files into your own solution.
 
-
 ### Windows
-Try to use the NESEmulatorApp for the main/default project... 
+Try to use the NEmulatorApp for the main/default project... 
 
 Note: This project adds some nuget package for OpenAL that is ported to work with .NET core. It appears to be a forked project that is not supported by the people who support OpenAL (?)
 
@@ -20,7 +28,6 @@ Note: This project adds some nuget package for OpenAL that is ported to work wit
 
 ### Notes for Windows use
 You must go to OpenAL.org and [download the OpenAL SDK](https://www.openal.org/downloads/), if you do not already have it installed.
-
 
 ### Controls
 #### Emulator
@@ -53,6 +60,11 @@ Player 2 controls not yet supported.
 	* Mapper 002 - Complete
 	* Mapper 003 - Complete
 	* Mapper 004 - In progress (need to test IRQ handling)
+
+## TODO
+- Complete GameEngineCore module
+- Fix damaged video output
+- Fix audio...
 
 ## Reference(s)
 - https://github.com/CodeSourcerer/

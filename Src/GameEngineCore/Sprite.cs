@@ -1,7 +1,7 @@
 ﻿using csPixelGameEngineCore.Enums;
 using log4net;
 using System;
-using System.Buffers;
+//using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -165,8 +165,10 @@ namespace csPixelGameEngineCore
 
         public void Fill(Pixel col)
         {
-            Span<Pixel> dest = ColorData;
-            dest.Fill(col);
+            //RnD
+            //Span<Pixel> 
+            Pixel[] dest = ColorData;
+            //dest.Fill(col);
         }
 
         /// <summary>

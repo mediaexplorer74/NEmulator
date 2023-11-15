@@ -175,8 +175,24 @@ namespace csPixelGameEngineCore
 
         public PixelGameEngine(IRenderer renderer, IPlatform platform, string appName = null)
         {
-            if (renderer == null) throw new ArgumentNullException(nameof(renderer));
-            if (platform == null) throw new ArgumentNullException(nameof(platform));
+            if (renderer == null)
+            {
+                renderer = new IRenderer()
+                {
+                    RenderFrame = default
+                };
+                //throw new ArgumentNullException(nameof(renderer));
+            }
+
+            if (platform == null)
+            {
+                platform = new IPlatform() 
+                { 
+                    WindowWidth = 600, 
+                    WindowHeight = 480 
+                };
+                //throw new ArgumentNullException(nameof(platform));
+            }
 
             this.Renderer = renderer;
             this.Platform = platform;
@@ -194,12 +210,20 @@ namespace csPixelGameEngineCore
         /// <remarks>
         /// Original returns an error code. I opted to throw an exception instead.
         /// </remarks>
-        public void Construct(uint screen_w, uint screen_h, uint pixel_w, uint pixel_h, bool full_screen, bool vsync)
+        public void Construct(uint screen_w, uint screen_h, uint pixel_w,
+            uint pixel_h, bool full_screen, bool vsync)
         {
-            if (screen_w == 0) throw new ArgumentException("Must be at least 1", nameof(screen_w));
-            if (screen_h == 0) throw new ArgumentException("Must be at least 1", nameof(screen_h));
-            if (pixel_w == 0) throw new ArgumentException("Must be at least 1", nameof(pixel_w));
-            if (pixel_h == 0) throw new ArgumentException("Must be at least 1", nameof(pixel_h));
+            if (screen_w == 0) 
+                throw new ArgumentException("Must be at least 1", nameof(screen_w));
+
+            if (screen_h == 0) 
+                throw new ArgumentException("Must be at least 1", nameof(screen_h));
+
+            if (pixel_w == 0) 
+                throw new ArgumentException("Must be at least 1", nameof(pixel_w));
+
+            if (pixel_h == 0) 
+                throw new ArgumentException("Must be at least 1", nameof(pixel_h));
 
             //Window = window;
             ScreenSize = new vec2d_i { x = (int)screen_w, y = (int)screen_h };
@@ -488,7 +512,8 @@ namespace csPixelGameEngineCore
                 BlendMode.NORMAL => DrawTarget.SetPixel(x, y, p),
                 BlendMode.MASK when p.a == 255 => DrawTarget.SetPixel(x, y, p),
                 BlendMode.ALPHA => DrawTarget.SetPixel(x, y, alphaBlend(x, y, p)),
-                BlendMode.CUSTOM => DrawTarget.SetPixel(x, y, CustomPixelBlender(x, y, DrawTarget.GetPixel(x, y), p)),
+                BlendMode.CUSTOM => DrawTarget.SetPixel(x, y,
+                CustomPixelBlender(x, y, DrawTarget.GetPixel(x, y), p)),
                 _ => false
             };
         }
@@ -720,19 +745,25 @@ namespace csPixelGameEngineCore
 
             if (x < 0)
                 x = 0;
+
             if (x >= DrawTargetWidth)
                 x = DrawTargetWidth;
+
             if (y < 0)
                 y = 0;
+
             if (y >= DrawTargetHeight)
                 y = DrawTargetHeight;
 
             if (x2 < 0)
                 x2 = 0;
+
             if (x2 >= DrawTargetWidth)
                 x2 = DrawTargetWidth;
+
             if (y2 < 0)
                 y2 = 0;
+
             if (y2 >= DrawTargetHeight)
                 y2 = DrawTargetHeight;
 

@@ -2,6 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 using System.Reflection;
 using csPixelGameEngineCore;
 using System.Threading;
@@ -11,21 +21,23 @@ using NESEmulator;
 using OpenTK;
 using OpenTK.Audio;
 using OpenTK.Audio.OpenAL;
-//using OpenTK.Input;
+using OpenTK.Input;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTK.Graphics;
 using csPixelGameEngineCore.Enums;
 
-namespace NESEmulatorApp
+
+
+namespace NEmulator
 {
-    class Demo
+    public sealed partial class MainPage : Page
     {
-        private const int SCREEN_WIDTH      = 700;
-        private const int SCREEN_HEIGHT     = 300;
+        private const int SCREEN_WIDTH = 700;
+        private const int SCREEN_HEIGHT = 300;
         private const int NUM_AUDIO_BUFFERS = 50;
         private const string APP_NAME = "NES Emulator";
 
-        private static ILog Log = LogManager.GetLogger(typeof(Demo));
+        private static ILog Log = LogManager.GetLogger(typeof(MainPage));
         private static ServiceProvider serviceProvider;
 
         private PixelGameEngine pge;
@@ -48,31 +60,40 @@ namespace NESEmulatorApp
         private DateTime dtStart = DateTime.Now;
         private double residualTime = 0.0;
 
-        public Demo(string appName)
+        public MainPage()//(string appName)
         {
+            this.InitializeComponent();
+            
             _availableBuffers = new Stack<int>(NUM_AUDIO_BUFFERS);
             initAudioStuff();
-            //window = new GLWindow(SCREEN_WIDTH, SCREEN_HEIGHT, 3, 3, appName);
-            //window.KeyDown += Window_KeyDown;
-            var renderer = serviceProvider.GetService<IRenderer>();
-            pge = new PixelGameEngine(renderer, serviceProvider.GetService<IPlatform>(), appName);
+
+            //RnD
+            window = new GLWindow(SCREEN_WIDTH, SCREEN_HEIGHT, 3, 3, "NEmulator");
+           // window.KeyDown += Window_KeyDown;
+            
+            IRenderer renderer = window;//serviceProvider.GetService<IRenderer>();
+            
+            pge = new PixelGameEngine(renderer, 
+                /*serviceProvider.GetService<IPlatform>()*/default, 
+                "NEmulator");
+            
             pge.Construct(SCREEN_WIDTH, SCREEN_HEIGHT, 4, 4, false, false);
             pge.OnCreate += pge_OnCreate;
             pge.OnFrameUpdate = pge_OnUpdate;
             pge.OnDestroy += pge_OnDestroy;
             pge.Platform.KeyDown += OnKeyDown;
-        }
 
-        static void Main(string[] args)
-        {
+        
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
 
             Thread.CurrentThread.Name = "main";
-            Log.Info($"NES app started with args {string.Join(' ', args)}");
+            Log.Info($"NES app started with args {string.Join(' ', "args")}");
 
-            var gameWindow = new GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GraphicsMode.Default, APP_NAME, GameWindowFlags.Default, DisplayDevice.Default, 2, 1,
-                                GraphicsContextFlags.Default);
+            var gameWindow = new GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, 
+                GraphicsMode.Default, APP_NAME, GameWindowFlags.Default, 
+                DisplayDevice.Default, 2, 1,
+                GraphicsContextFlags.Default);
 
             serviceProvider = new ServiceCollection()
                 .AddSingleton(gameWindow)
@@ -80,7 +101,7 @@ namespace NESEmulatorApp
                 .AddScoped<IPlatform, OpenTkPlatform>()
                 .BuildServiceProvider();
 
-            Demo demo = new Demo(APP_NAME);
+            //MainPage demo = new MainPage();
 
             //string romfile = "tests\\smb_2.nes";
             //string romfile = "tests\\smb2.nes";
@@ -155,12 +176,12 @@ namespace NESEmulatorApp
             //string romfile = "tests\\ppu_open_bus\\ppu_open_bus.nes";
             //string romfile = "tests\\nmi_sync\\demo_ntsc.nes";
 
-            if (args.Length > 0 && !string.IsNullOrWhiteSpace(args[0]))
-                romfile = args[0];
+            //if (args.Length > 0 && !string.IsNullOrWhiteSpace(args[0]))
+            //    romfile = args[0];
 
-            Cartridge cartridge = demo.LoadCartridge(romfile);
+            Cartridge cartridge = this.LoadCartridge(romfile);
 
-            demo.Start(cartridge);
+            this.Start(cartridge);
         }
 
         public void Start(Cartridge cartridge)
@@ -199,30 +220,46 @@ namespace NESEmulatorApp
             return cartridge;
         }
 
-        private void handleControllerInputs(KeyboardState keyState)
+        private void handleControllerInputs(csPixelGameEngineCore.KeyboardState keyState)
         {
             nesBus.Controller.Reset();
 
-            if (keyState.IsKeyDown(Key.X))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.A);
+            if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.X))
+                nesBus.Controller.Press(NESController.Controller.Controller1, 
+                    NESController.NESButton.A);
 
-            if (keyState.IsKeyDown(Key.Z))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.B);
+            if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.Z))
+                nesBus.Controller.Press(NESController.Controller.Controller1, 
+                    NESController.NESButton.B);
 
-            if (keyState.IsKeyDown(Key.A))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.START);
+            if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.A))
+                nesBus.Controller.Press(NESController.Controller.Controller1, 
+                    NESController.NESButton.START);
 
-            if (keyState.IsKeyDown(Key.S))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.SELECT);
+            if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.S))
+                nesBus.Controller.Press(NESController.Controller.Controller1, 
+                    NESController.NESButton.SELECT);
 
-            if (keyState.IsKeyDown(Key.Up))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.UP);
-            else if (keyState.IsKeyDown(Key.Down))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.DOWN);
-            else if (keyState.IsKeyDown(Key.Left))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.LEFT);
-            else if (keyState.IsKeyDown(Key.Right))
-                nesBus.Controller.Press(NESController.Controller.Controller1, NESController.NESButton.RIGHT);
+            if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.Up))
+            {
+                nesBus.Controller.Press(NESController.Controller.Controller1,
+                    NESController.NESButton.UP);
+            }
+            else if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.Down))
+            {
+                nesBus.Controller.Press(NESController.Controller.Controller1,
+                    NESController.NESButton.DOWN);
+            }
+            else if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.Left))
+            {
+                nesBus.Controller.Press(NESController.Controller.Controller1,
+                    NESController.NESButton.LEFT);
+            }
+            else if (keyState.IsKeyDown(csPixelGameEngineCore.Enums.Key.Right))
+            {
+                nesBus.Controller.Press(NESController.Controller.Controller1,
+                    NESController.NESButton.RIGHT);
+            }
         }
 
         private void OnKeyDown(object sender, KeyboardEventArgs e)
@@ -233,11 +270,11 @@ namespace NESEmulatorApp
             // Emulator inputs
             switch (e.Key)
             {
-                case Key.Space:
+                case csPixelGameEngineCore.Enums.Key.Space:
                     runEmulation = !runEmulation;
                     break;
 
-                case Key.R:
+                case csPixelGameEngineCore.Enums.Key.R:
                     bool wasRunning = runEmulation;
                     runEmulation = false;
                     nesBus.Reset();
@@ -245,11 +282,11 @@ namespace NESEmulatorApp
                     runEmulation = wasRunning;
                     break;
 
-                case Key.P:
+                case csPixelGameEngineCore.Enums.Key.P:
                     selectedPalette = (selectedPalette + 1) & 0x07;
                     break;
 
-                case Key.F:
+                case csPixelGameEngineCore.Enums.Key.F:
                     do
                     {
                         nesBus.clock();
@@ -257,7 +294,7 @@ namespace NESEmulatorApp
                     nesBus.PPU.FrameComplete = false;
                     break;
 
-                case Key.Semicolon:
+                case csPixelGameEngineCore.Enums.Key.Semicolon:
                     // Advance to CPU clock cycle
                     while (nesBus.SystemClockCycle % 3 != 0)
                         nesBus.clock();
@@ -269,7 +306,7 @@ namespace NESEmulatorApp
                     }
                     break;
 
-                case Key.C:
+                case csPixelGameEngineCore.Enums.Key.C:
                     do
                     {
                         nesBus.clock();
@@ -494,9 +531,11 @@ namespace NESEmulatorApp
 
             for (int i = start, y_offset = 0; i < start + count; i++, y_offset++)
             {
-                string sOAM = $"{i:X2}: ({OAM[i].x}, {OAM[i].y}) ID: {OAM[i].id:X2} AT: {OAM[i].attribute:X2}";
+                string sOAM =
+                  $"{i:X2}: ({OAM[i].x}, {OAM[i].y}) ID: {OAM[i].id:X2} AT: {OAM[i].attribute:X2}";
                 pge.DrawString(x, y + y_offset * 10, sOAM, Pixel.WHITE);
             }
         }
     }
 }
+
