@@ -12,7 +12,7 @@ Draft / Pre-alpha.
 ## My 2 cents
 - .NET Core app base -> UWP   (min. Win. os SDK = 17763)
 - OpenTK + UWP "experimentation"
-- csPixelGameEngineCore -> GameEnginCore (draft)
+- csPixelGameEngineCore -> GameEngineCore (draft)
 
 ## Building
 I use Visual Studio 2022 Preview (Community Edition) while developing this project, so if you have it available you can simply open the solution file - otherwise you will have to add in the 
